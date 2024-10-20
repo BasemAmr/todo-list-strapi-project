@@ -7,7 +7,7 @@ import { VariantProps, cva } from "class-variance-authority"
 const cn = (...inputs: (string | undefined)[]) => twMerge(clsx(inputs))
 
 const buttonVariants = cva(
-  "font-medium text-white rounded-md focus:outline-none focus:ring",
+  "w-full font-medium text-white rounded-md focus:outline-none focus:ring",
   {
     variants: {
       variant: {

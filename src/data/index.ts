@@ -1,4 +1,4 @@
-import { RegisterFormFields } from "../interfaces";
+import { RegisterFormFields , LoginFormFields} from "../interfaces";
 
 export const REGISTER_FORM_FIELDS: RegisterFormFields[] = [
     {
@@ -20,3 +20,20 @@ export const REGISTER_FORM_FIELDS: RegisterFormFields[] = [
         placeholder: 'Enter your password',
     },
 ];
+
+
+
+export const LOGIN_FORM_FIELDS: LoginFormFields[] = [
+    {
+        name: 'identifier',
+        label: 'Email',
+        type: 'email',
+        placeholder: 'Enter your email',
+    },
+    {
+        name: 'password',
+        label: 'Password',
+        type: 'password',
+        placeholder: 'Enter your password',
+    },
+]

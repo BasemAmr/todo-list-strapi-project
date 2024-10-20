@@ -15,3 +15,11 @@ export interface RegisterFormFields {
     type: 'email' | 'text' | 'password';
     placeholder: string;
 }
+
+
+export interface LoginFormFields {
+  name: 'identifier' |  'password';
+  label: string;
+  type: 'email' | 'password';
+  placeholder: string;
+}

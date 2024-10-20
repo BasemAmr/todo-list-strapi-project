@@ -1,10 +1,14 @@
-import { NavLink, useLocation } from "react-router-dom"
 
-interface NavbarProps {
-    // props here
-}
+import { NavLink } from "react-router-dom";
+import Button from "./ui/Button";
 
-export const Navbar = ({ }: NavbarProps) => {
+
+export const Navbar = () => {
+
+
+    const user = localStorage.getItem('loggedInUser');
+    const loggedInUser = user ? JSON.parse(user) : null;
+
     return (
         <nav className="max-w-lg mx-auto flex justify-between items-center h-16 bg-gray-800 text-white px-4 shadow-lg">
             <NavLink to="/" className="text-2xl font-bold">Logo</NavLink>
@@ -27,28 +31,45 @@ export const Navbar = ({ }: NavbarProps) => {
                 </li>
                 <li>
                     <NavLink 
-                        to="/login" 
-                        className={({ isActive }) => isActive ? "text-yellow-500" : "text-white"}
-                    >
-                        Login
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink 
                         to="/todos" 
                         className={({ isActive }) => isActive ? "text-yellow-500" : "text-white"}
                     >
                         Todos
                     </NavLink>
                 </li>
+
+                {!loggedInUser?.jwt && 
+                <>
+                    <li>
+                        <NavLink 
+                            to="/login" 
+                            className={({ isActive }) => isActive ? "text-yellow-500" : "text-white"}
+                        >
+                            Login
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            to="/register" 
+                            className={({ isActive }) => isActive ? "text-yellow-500" : "text-white"}
+                        >
+                            Register
+                        </NavLink>
+                    </li>
+                </> }
+                {loggedInUser?.jwt &&
                 <li>
-                    <NavLink 
-                        to="/register" 
-                        className={({ isActive }) => isActive ? "text-yellow-500" : "text-white"}
+                    <Button 
+                        onClick={() => {
+                            localStorage.removeItem('loggedInUser');
+                            location.replace('/');
+                        }}
+                        variant={"danger"}
+                        className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded"
                     >
-                        Register
-                    </NavLink>
-                </li>
+                        Logout
+                    </Button>
+                </li> }
             </ul>
         </nav>
     )

@@ -80,6 +80,8 @@ const TodoList: React.FC = () => {
 
     const [Loading, setLoading] = useState(false);
 
+    const [showConfirmRemoveModal, setShowConfirmRemoveModal] = useState(false);
+
     // Fetch todos using custom hook
     const { data, isLoading } = useAuthQuery({
         queryKey: ['todos' , `${todoToEdit?.documentId}`],
@@ -105,6 +107,54 @@ const TodoList: React.FC = () => {
             description: todo.description,
             completed: todo.completed
         });
+    };
+
+    const openConfirmRemoveModal = (todo: Todo) => {
+        setTodoToEdit(todo);
+        setShowConfirmRemoveModal(true);
+    }
+
+    const closeConfirmRemoveModal = () => {
+        setShowConfirmRemoveModal(false);
+        setTodoToEdit({
+            id: 0,
+            documentId: '',
+            title: '',
+            description: '',
+            completed: false
+        }
+        );
+    }
+
+    const removeTodo = async () => {
+        if (!todoToEdit) return;
+
+        setLoading(true);
+        try {
+            const { status } = await instance.delete(`/todos/${todoToEdit.documentId}`, {
+                headers: {
+                    Authorization: `Bearer ${loggedInUser?.jwt}`
+                }
+            });
+
+            if (status === 200 || status === 204) {
+                toast.success('Todo removed successfully');
+                closeConfirmRemoveModal();
+                setTodoToEdit({
+                    id: 0,
+                    documentId: '',
+                    title: '',
+                    description: '',
+                    completed: false
+                }
+                );
+            }
+        } catch (error) {
+            toast.error('Failed to remove todo');
+            console.error('Error removing todo:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const onSave = async (formData: FormValues) => {
@@ -192,7 +242,7 @@ const TodoList: React.FC = () => {
             </div>
             <div className="flex flex-col space-y-4 items-center">
                 <Button variant="success" size="md" onClick={() => openModal(todo)}>Edit</Button>
-                <Button variant="danger" size="md">Remove</Button>
+                <Button variant="danger" size="md" onClick={() => openConfirmRemoveModal(todo)}>Remove</Button>
             </div>
         </div>
     );
@@ -223,6 +273,17 @@ const TodoList: React.FC = () => {
                     <Button variant="secondary" size="md" onClick={closeModal}>Cancel</Button>
                 </div>
                 </form>
+            </Modal>
+
+            {/* Confirm remove modal */}
+            <Modal isOpen={showConfirmRemoveModal} closeModal={closeConfirmRemoveModal} title="Edit Todo">
+                <div className="flex flex-col gap-5">
+                    <p>Are you sure you want to remove this todo?</p>
+                    <div className="flex justify-end gap-5">
+                        <Button variant="danger" size="md" onClick={removeTodo} isLoading={Loading}>Remove</Button>
+                        <Button variant="secondary" size="md" onClick={closeConfirmRemoveModal}>Cancel</Button>
+                    </div>
+                </div>
             </Modal>
         </>
     );

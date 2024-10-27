@@ -21,18 +21,24 @@ const buttonVariants = cva(
         md: "px-4 py-2 text-base",
         lg: "px-6 py-3 text-lg",
       },
+      disabled: {
+        true: "cursor-not-allowed opacity-50",
+        false: "",
+      },
     },
     defaultVariants: {
       variant: "primary",
       size: "md",
+      disabled: false,
     },
   }
 )
 
 interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'>,
     VariantProps<typeof buttonVariants> {
   isLoading?: boolean
+  disabled?: boolean
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -42,17 +48,17 @@ const Button: React.FC<ButtonProps> = ({
   variant,
   size,
   className,
+  disabled,
   ...rest
 }) => {
   return (
     <button
       className={cn(
-        buttonVariants({ variant, size }),
-        isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer",
+        buttonVariants({ variant, size, disabled: disabled || isLoading }),
         className
       )}
       type={type}
-      disabled={isLoading}
+      disabled={disabled || isLoading}
       {...rest}
     >
       {isLoading ? (

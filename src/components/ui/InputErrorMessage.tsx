@@ -1,5 +1,6 @@
 interface InputErrorMessageProps {
     message: string | undefined;
+    id: string;
 }
 
 const InputErrorMessage = ({ message }: InputErrorMessageProps) => {

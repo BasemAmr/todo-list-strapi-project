@@ -1,78 +1,84 @@
-
 import { NavLink } from "react-router-dom";
-import Button from "./ui/Button";
-
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export const Navbar = () => {
-
-
+    const [isDarkMode, setIsDarkMode] = useState(false);
     const user = localStorage.getItem('loggedInUser');
     const loggedInUser = user ? JSON.parse(user) : null;
 
+    useEffect(() => {
+        document.documentElement.classList.toggle('dark', isDarkMode);
+    }, [isDarkMode]);
+
     return (
-        <nav className="max-w-lg mx-auto flex justify-between items-center h-16 bg-gray-800 text-white px-4 shadow-lg">
-            <NavLink to="/" className="text-2xl font-bold">Logo</NavLink>
-            <ul className="flex space-x-4">
-                <li>
-                    <NavLink 
-                        to="/" 
-                        className={({ isActive }) => isActive ? "text-yellow-500" : "text-white"}
-                    >
-                        Home
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink 
-                        to="/profile" 
-                        className={({ isActive }) => isActive ? "text-yellow-500" : "text-white"}
-                    >
-                        Profile
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink 
-                        to="/todos" 
-                        className={({ isActive }) => isActive ? "text-yellow-500" : "text-white"}
-                    >
-                        Todos
-                    </NavLink>
-                </li>
+        <motion.nav
+            className="max-w-6xl w-min gap-10 flex justify-between items-center h-20 px-8 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 shadow-md rounded-lg my-4"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+            {/* Logo/Title */}
+            <NavLink to="/" className="text-3xl font-semibold hover:text-blue-500 dark:hover:text-yellow-400 transition-colors duration-300">
+                Todos
+            </NavLink>
 
-                {!loggedInUser?.jwt && 
-                <>
-                    <li>
-                        <NavLink 
-                            to="/login" 
-                            className={({ isActive }) => isActive ? "text-yellow-500" : "text-white"}
+            {/* Navigation Links */}
+            <ul className="flex space-x-6 items-center">
+                {!loggedInUser?.jwt ? (
+                    <>
+                        <motion.li
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
                         >
-                            Login
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink 
-                            to="/register" 
-                            className={({ isActive }) => isActive ? "text-yellow-500" : "text-white"}
+                            <NavLink
+                                to="/login"
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? "text-blue-500 dark:text-yellow-400 font-semibold"
+                                        : "hover:text-blue-500 dark:hover:text-yellow-400 transition-colors duration-300"
+                                }
+                            >
+                                Login
+                            </NavLink>
+                        </motion.li>
+
+                        <motion.li
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
                         >
-                            Register
-                        </NavLink>
-                    </li>
-                </> }
-                {loggedInUser?.jwt &&
-                <li>
-                    <Button 
-                        onClick={() => {
-                            localStorage.removeItem('loggedInUser');
-                            location.replace('/');
-                        }}
-                        variant={"danger"}
-                        className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded"
+                            <NavLink
+                                to="/register"
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? "text-blue-500 dark:text-yellow-400 font-semibold"
+                                        : "hover:text-blue-500 dark:hover:text-yellow-400 transition-colors duration-300"
+                                }
+                            >
+                                Register
+                            </NavLink>
+                        </motion.li>
+                    </>
+                ) : (
+                    <motion.li
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                     >
-                        Logout
-                    </Button>
-                </li> }
+                        <button
+                            onClick={() => {
+                                localStorage.removeItem('loggedInUser');
+                                location.replace('/');
+                            }}
+                            className="px-4 py-2 bg-red-500 dark:bg-red-600 text-white rounded-md shadow-md hover:bg-red-600 dark:hover:bg-red-700 transition-all duration-300"
+                        >
+                            Logout
+                        </button>
+                    </motion.li>
+                )}
+
             </ul>
-        </nav>
-    )
-}
+        </motion.nav>
+    );
+};
 
-export default Navbar
+export default Navbar;

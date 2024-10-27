@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import InputErrorMessage from '../components/ui/InputErrorMessage';
@@ -11,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { instance } from '../config/axios.config';
 import { IErrorResponse } from '../interfaces';
 
-import {  useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 
@@ -55,33 +56,57 @@ export const RegisterPage: React.FC = () => {
         }
     };
 
-    // Render form fields
     const renderFormFields = () => {
         return REGISTER_FORM_FIELDS.map((field, idx) => (
-            <div key={idx} className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={field.name}>
+            <div key={idx} className="mb-6">
+                <label 
+                    className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" 
+                    htmlFor={field.name}
+                >
                     {field.label}
                 </label>
-                <Input id={field.name} type={field.type} placeholder={field.placeholder} {...register(field.name as keyof RegisterFormValues)} />
-                {errors[field.name as keyof RegisterFormValues] && <InputErrorMessage message={errors[field.name as keyof RegisterFormValues]?.message} />}
+                <Input
+                    id={field.name}
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    aria-invalid={errors[field.name as keyof RegisterFormValues] ? "true" : "false"}
+                    aria-describedby={`${field.name}-error`}
+                    error={!!errors[field.name as keyof RegisterFormValues]}
+                    {...register(field.name as keyof RegisterFormValues)}
+                />
+                {errors[field.name as keyof RegisterFormValues] && (
+                    <InputErrorMessage id={`${field.name}-error`} message={errors[field.name as keyof RegisterFormValues]?.message} />
+                )}
             </div>
         ));
     };
-
+    
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
-                <form onSubmit={handleSubmit(onSubmit)}>
+        <motion.div
+            className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+        >
+            <motion.div
+                className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md transition-all duration-300"
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.8 }}
+                transition={{ duration: 0.5 }}
+            >
+                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-gray-100">Register</h2>
+                <form onSubmit={handleSubmit(onSubmit)} aria-label="Register Form">
                     {renderFormFields()}
-                    <div className="flex items-center justify-between">
-                        <Button type="submit" isLoader={loading}>
+                    <div className="flex items-center justify-between mt-4">
+                        <Button type="submit" isLoading={loading} className="w-full bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-500 text-white font-bold py-2 rounded-md transition-all duration-300">
                             Register
                         </Button>
                     </div>
                 </form>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 };
 

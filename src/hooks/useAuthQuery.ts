@@ -1,18 +1,4 @@
-// build reusable custom hook with its interface
-/*
-const { data, isLoading } = useQuery({
-        queryKey: ['todos'],
-        queryFn: async () => {
-            const { data } = await instance.get('/users/me?populate=todos', {
-                headers: {
-                    Authorization: `Bearer ${loggedInUser.jwt}`
-                }
-            });
-            return data;
-        }
-    });
 
-*/
 
 import { useQuery } from '@tanstack/react-query';
 import { instance } from '../config/axios.config';

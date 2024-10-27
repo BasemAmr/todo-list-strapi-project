@@ -4,7 +4,6 @@ import Homepage from "../pages";
 import LoginPage from "../pages/Login";
 import PageNotFound from "../pages/PageNotFound";
 import RegisterPage from "../pages/Register";
-import TodosPage from "../pages/Todos";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import ErrorHandler from "../components/ErrorHandler";
 
@@ -23,26 +22,10 @@ const router = createBrowserRouter(
                 }
             />
             <Route
-                path="/profile"
-                element={
-                    <ProtectedRoute isLogged={loggedInUser?.jwt} redirectPath="/login">
-                        <h2>Profile</h2>
-                    </ProtectedRoute>
-                }
-            />
-            <Route
                 path="/login"
                 element={
                     <ProtectedRoute isLogged={!loggedInUser?.jwt} redirectPath="/">
                         <LoginPage />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/todos"
-                element={
-                    <ProtectedRoute isLogged={loggedInUser?.jwt} redirectPath="/login">
-                        <TodosPage />
                     </ProtectedRoute>
                 }
             />

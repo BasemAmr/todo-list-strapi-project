@@ -1,50 +1,68 @@
-# React + TypeScript + Vite
+# Todo Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern Todo application built with React and TypeScript, utilizing Tailwind CSS for styling and Axios for API interactions. The app provides a user-friendly interface for managing tasks, including features such as authentication, pagination, and error handling.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Features](#features)
+- [Technologies](#technologies)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Description of Key Files](#Description-of-Key-Files)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- User Authentication (Register and Login)
+- Create, Read, Update, and Delete (CRUD) Todo items
+- Pagination for Todo lists
+- Responsive UI built with Tailwind CSS
+- Error handling and loading states
+- User-friendly components with reusable UI elements
 
-- Configure the top-level `parserOptions` property like this:
+## Technologies
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Frontend**: React, TypeScript, Tailwind CSS
+- **State Management**: React Query (for data fetching and synchronization)
+- **HTTP Client**: Axios
+- **Routing**: React Router
+- **Linting**: ESLint, Prettier
+- **Build Tools**: Vite
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Installation
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+To get started with the Todo application, follow these steps:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/BasemAmr/todo-list-strapi-project.git
+   cd todo-app
+   
+2. **Install dependencies**:
+  ```bash
+  npm install
+  ```
+
+3. **Run the development server:**:
+  ```bash
+  npm install
+  ```
+
+4. Open your browser and navigate to http://localhost:5173 to view the application.
+
+## Usage
+1. Register: Create a new user account by filling out the registration form.
+2. Login: Use your credentials to log into the application.
+3. Manage Todos: Once logged in, you can:
+  - Add new Todo items
+  - Edit existing Todo items
+  - Delete Todo items
+  - Navigate through pages of Todo items
+
+## Description of Key Files
+  - ui/: Contains reusable UI components such as buttons, inputs, modals, and todo items.
+  - hooks/: Custom hooks for managing todos and handling authentication.
+  - pages/: Contains different pages of the application like Login, Register, and the main layout.
+  - router/: Manages the application’s routing.
+  - config/: Configuration files for Axios or other services.
+  - validation/: Contains validation logic for forms.
